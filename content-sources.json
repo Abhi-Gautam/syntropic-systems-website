@@ -9,6 +9,18 @@
       "assets": [
         "docs/public/assets/architecture.svg"
       ]
+    },
+    {
+      "id": "orchestration",
+      "repository": "../../personal-projects/orchestration",
+      "rawRoot": "https://raw.githubusercontent.com/Abhi-Gautam/orchestration",
+      "ref": "main",
+      "article": "docs/public/article.md",
+      "assets": [
+        "docs/public/assets/document-workflow.svg",
+        "docs/public/assets/old-action-execution.svg",
+        "docs/public/assets/ownership-correction.svg"
+      ]
     }
   ]
 }

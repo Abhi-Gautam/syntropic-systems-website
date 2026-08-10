@@ -299,6 +299,30 @@ h1 {
   font-size: inherit;
 }
 
+.prose table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  margin-block: 32px;
+  border-collapse: collapse;
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.prose th,
+.prose td {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.prose th {
+  background: var(--soft);
+  font-weight: 700;
+}
+
 .prose hr {
   margin-block: 64px 28px;
   border: 0;

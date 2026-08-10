@@ -5,6 +5,9 @@ import mediaPlugin from './src/plugins/satteri-media.mjs';
 export default defineConfig({
   site: 'https://syntropicsystems.dev',
   output: 'static',
+  devToolbar: {
+    enabled: false,
+  },
   build: {
     format: 'directory',
   },
