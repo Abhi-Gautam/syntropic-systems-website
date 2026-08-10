@@ -45,10 +45,10 @@ python3 scripts/verify.py
 
 ## Design rules
 
-- This is an engineering publication, not a SaaS landing page.
-- Typography, alignment, whitespace, and rules create hierarchy.
-- Do not add gradients, glassmorphism, fake terminals, fake dashboards, feature-card grids, stock imagery, or decorative metrics.
-- Use one signal accent and a restrained neutral palette.
+- Turbopuffer is the primary reference for restraint: plain typography, black/white/quiet gray, simple rules, and content before decoration.
+- Use one simple monospace stack. Keep headlines at normal reading sizes.
+- The site should feel like a useful technical page, not an art-directed portfolio or SaaS landing page.
+- Do not add serif display type, oversized statements, gradients, glassmorphism, fake terminals, dashboards, card grids, numbered editorial indexes, manifesto blocks, stock imagery, or decorative metrics.
 - Keep every interactive target at least 44px.
 - Preserve visible keyboard focus, semantic HTML, high contrast, and reduced-motion support.
 - Verify desktop and narrow mobile layouts after visual changes.
