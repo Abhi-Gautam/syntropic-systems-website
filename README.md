@@ -36,8 +36,8 @@ Project repositories own their canonical articles and project-specific media. Th
 Registered sources live in [`content-sources.json`](./content-sources.json). For Animesh:
 
 ```text
-/Volumes/mac-devlopment/oss/animesh/docs/public/article.md
-/Volumes/mac-devlopment/oss/animesh/docs/public/assets/
+**/animesh/docs/public/article.md
+**/animesh/docs/public/assets/
 ```
 
 During sync:
