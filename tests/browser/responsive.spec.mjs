@@ -57,3 +57,56 @@ test('diagram loads and scrolls inside its own container on narrow screens', asy
   expect(dimensions.scrollWidth).toBeGreaterThan(dimensions.clientWidth);
   expect(dimensions.right).toBeLessThanOrEqual(390);
 });
+
+test('architecture SVG text stays in bounds and clear of other text and routes', async ({ page }) => {
+  await page.goto('/media/animesh/architecture.svg');
+
+  const collisions = await page.locator('svg').evaluate((svg) => {
+    const viewBox = svg.viewBox.baseVal;
+    const texts = [...svg.querySelectorAll('text')].map((element) => ({
+      label: element.textContent.trim(),
+      box: element.getBBox(),
+    }));
+    const paths = [...svg.querySelectorAll(':scope > path')];
+    const failures = [];
+
+    for (const { label, box } of texts) {
+      if (
+        box.x < viewBox.x
+        || box.y < viewBox.y
+        || box.x + box.width > viewBox.x + viewBox.width
+        || box.y + box.height > viewBox.y + viewBox.height
+      ) {
+        failures.push(`${label}: outside viewBox`);
+      }
+
+      for (const route of paths) {
+        for (let x = box.x + 1; x < box.x + box.width; x += Math.max(2, box.width / 12)) {
+          for (let y = box.y + 1; y < box.y + box.height; y += Math.max(2, box.height / 5)) {
+            if (route.isPointInStroke(new DOMPoint(x, y))) {
+              failures.push(`${label}: intersects route`);
+              x = box.x + box.width;
+              break;
+            }
+          }
+        }
+      }
+    }
+
+    for (let left = 0; left < texts.length; left += 1) {
+      for (let right = left + 1; right < texts.length; right += 1) {
+        const a = texts[left];
+        const b = texts[right];
+        const overlaps = a.box.x < b.box.x + b.box.width
+          && a.box.x + a.box.width > b.box.x
+          && a.box.y < b.box.y + b.box.height
+          && a.box.y + a.box.height > b.box.y;
+        if (overlaps) failures.push(`${a.label}: overlaps ${b.label}`);
+      }
+    }
+
+    return [...new Set(failures)];
+  });
+
+  expect(collisions).toEqual([]);
+});

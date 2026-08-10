@@ -3,8 +3,12 @@
     {
       "id": "animesh",
       "repository": "/Volumes/mac-devlopment/oss/animesh",
+      "rawRoot": "https://raw.githubusercontent.com/Abhi-Gautam/animesh",
+      "ref": "feat/walking-the-code",
       "article": "docs/public/article.md",
-      "assets": "docs/public/assets"
+      "assets": [
+        "docs/public/assets/architecture.svg"
+      ]
     }
   ]
 }
