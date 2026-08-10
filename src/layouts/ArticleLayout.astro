@@ -1,0 +1,48 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  published: string | Date;
+  project: string;
+  repository: string;
+}
+
+const { title, description, published, project, repository } = Astro.props;
+const publishedDate = published instanceof Date ? published : new Date(String(published));
+if (Number.isNaN(publishedDate.getTime())) {
+  throw new Error(`Invalid article publication date: ${published}`);
+}
+const formattedDate = new Intl.DateTimeFormat('en', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+}).format(publishedDate);
+---
+
+<BaseLayout title={`${title} — Syntropic Systems`} description={description}>
+  <main id="content" class="article-page">
+    <article>
+      <header class="article-header">
+        <p class="article-kicker"><a href="/">writing</a> / {project.toLowerCase()}</p>
+        <h1>{title}</h1>
+        <p class="article-dek">{description}</p>
+        <div class="article-byline">
+          <span>Abhishek Gautam</span>
+          <time datetime={publishedDate.toISOString().slice(0, 10)}>{formattedDate}</time>
+        </div>
+      </header>
+
+      <div class="prose">
+        <slot />
+      </div>
+
+      <footer class="article-source">
+        <span>Project source</span>
+        <a href={repository} rel="noopener">github.com/Abhi-Gautam/{project.toLowerCase()} ↗</a>
+      </footer>
+    </article>
+  </main>
+</BaseLayout>

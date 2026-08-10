@@ -20,8 +20,15 @@ AGENTS.md
 *.tmp
 .cache/
 
-# Future build/deployment output
+# Build/deployment output
 node_modules/
 dist/
+.astro/
+test-results/
+playwright-report/
 .wrangler/
 .dev.vars
+
+# Generated from canonical project repositories
+src/generated/
+public/media/

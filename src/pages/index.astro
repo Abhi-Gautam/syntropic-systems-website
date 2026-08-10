@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const articles = [
+  {
+    href: '/writing/animesh/',
+    title: 'I just wanted to know when an episode dropped',
+    summary: 'A manual Crunchyroll habit became a notification pipeline, then a daemon, then the beginning of a local data system for personal taste.',
+    project: 'Animesh',
+  },
+];
+---
+
+<BaseLayout
+  title="Syntropic Systems — Abhishek Gautam"
+  description="Abhishek Gautam writes about software systems, engineering projects, and what he learns while building them."
+>
+  <main id="content" class="page">
+    <h1>Software systems, built and explained.</h1>
+    <p class="introduction">I’m Abhishek Gautam. I write about the systems I build, why they take the shape they do, and what I learn while making them.</p>
+
+    <ol class="article-list" aria-label="Articles">
+      {articles.map((article) => (
+        <li>
+          <a class="article-entry" href={article.href}>
+            <span class="article-title">{article.title}</span>
+            <span class="article-summary">{article.summary}</span>
+            <span class="article-meta">{article.project}</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </main>
+</BaseLayout>

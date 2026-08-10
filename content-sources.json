@@ -1,0 +1,10 @@
+{
+  "projects": [
+    {
+      "id": "animesh",
+      "repository": "/Volumes/mac-devlopment/oss/animesh",
+      "article": "docs/public/article.md",
+      "assets": "docs/public/assets"
+    }
+  ]
+}
