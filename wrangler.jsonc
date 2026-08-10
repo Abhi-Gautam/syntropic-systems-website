@@ -1,0 +1,7 @@
+{
+  "name": "syntropic-systems-website",
+  "compatibility_date": "2026-08-10",
+  "assets": {
+    "directory": "./dist"
+  }
+}
