@@ -18,8 +18,9 @@
       "article": "docs/public/article.md",
       "assets": [
         "docs/public/assets/document-workflow.svg",
-        "docs/public/assets/old-action-execution.svg",
-        "docs/public/assets/ownership-correction.svg"
+        "docs/public/assets/execution-contracts.svg",
+        "docs/public/assets/artifact-publication.svg",
+        "docs/public/assets/bounded-execution.svg"
       ]
     }
   ]

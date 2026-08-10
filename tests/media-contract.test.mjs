@@ -20,6 +20,8 @@ test('SVG Markdown images become readable-width diagram figures', async () => {
   assert.match(html, /<figure class="media media--diagram">/);
   assert.match(html, /<div class="media__scroll" tabindex="0" aria-label="Scrollable diagram">/);
   assert.match(html, /<img[^>]+class="media__asset"/);
+  assert.match(html, /<img[^>]+loading="eager"/);
+  assert.doesNotMatch(html, /<img[^>]+loading="lazy"/);
   assert.match(html, /<figcaption>One owner, several surfaces\.<\/figcaption>/);
 });
 
@@ -32,6 +34,7 @@ test('raster Markdown images become fluid figures without a scroll container', a
 
   assert.match(html, /<figure class="media media--image">/);
   assert.doesNotMatch(html, /media__scroll/);
+  assert.match(html, /<img[^>]+loading="lazy"/);
   assert.match(html, /<figcaption>The menu bar surface\.<\/figcaption>/);
 });
 

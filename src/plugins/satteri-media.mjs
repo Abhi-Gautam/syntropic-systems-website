@@ -42,7 +42,7 @@ export default defineHastPlugin({
         properties: {
           ...rest,
           className: ['media__asset'],
-          loading: 'lazy',
+          loading: diagram ? 'eager' : 'lazy',
           decoding: 'async',
         },
         children: [],
