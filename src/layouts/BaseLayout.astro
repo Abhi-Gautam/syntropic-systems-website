@@ -4,9 +4,14 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description: string;
+  ogImage?: string;
+  ogType?: 'website' | 'article';
 }
 
-const { title, description } = Astro.props;
+const { title, description, ogImage = '/og/default.png', ogType = 'website' } = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImageUrl = new URL(ogImage, Astro.site);
 ---
 
 <!doctype html>
@@ -16,10 +21,32 @@ const { title, description } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="author" content="Abhishek Gautam" />
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#101010" />
+
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:site_name" content="Syntropic Systems" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonical} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Syntropic Systems"
+      href={new URL('/rss.xml', Astro.site)}
+    />
     <title>{title}</title>
   </head>
   <body>
@@ -35,7 +62,7 @@ const { title, description } = Astro.props;
 
     <footer class="site-footer">
       <span>© Abhishek Gautam</span>
-      <span>India</span>
+      <a href="/rss.xml">rss</a>
     </footer>
   </body>
 </html>

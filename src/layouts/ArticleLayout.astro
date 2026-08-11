@@ -1,37 +1,39 @@
 ---
+import type { CollectionEntry } from 'astro:content';
 import BaseLayout from './BaseLayout.astro';
 
-interface Props {
-  title: string;
-  description: string;
-  published: string | Date;
-  project: string;
-  repository: string;
-}
+type Props = CollectionEntry<'writing'>['data'] & { slug: string };
 
-const { title, description, published, project, repository } = Astro.props;
-const publishedDate = published instanceof Date ? published : new Date(String(published));
-if (Number.isNaN(publishedDate.getTime())) {
-  throw new Error(`Invalid article publication date: ${published}`);
-}
+const { title, description, published, project, repository, slug } = Astro.props;
+
 const formattedDate = new Intl.DateTimeFormat('en', {
   day: 'numeric',
   month: 'long',
   year: 'numeric',
   timeZone: 'UTC',
-}).format(publishedDate);
+}).format(published);
+
+// Label the source link from the URL itself. Hardcoding an owner makes the
+// visible text lie as soon as a project moves to another account or org.
+const repositoryUrl = new URL(repository);
+const repositoryLabel = `${repositoryUrl.host}${repositoryUrl.pathname.replace(/\/$/, '')}`;
 ---
 
-<BaseLayout title={`${title} — Syntropic Systems`} description={description}>
+<BaseLayout
+  title={`${title} — Syntropic Systems`}
+  description={description}
+  ogImage={`/og/${slug}.png`}
+  ogType="article"
+>
   <main id="content" class="article-page">
     <article>
       <header class="article-header">
-        <p class="article-kicker"><a href="/">writing</a> / {project.toLowerCase()}</p>
+        <p class="article-kicker"><a href="/">writing</a> / {project}</p>
         <h1>{title}</h1>
         <p class="article-dek">{description}</p>
         <div class="article-byline">
           <span>Abhishek Gautam</span>
-          <time datetime={publishedDate.toISOString().slice(0, 10)}>{formattedDate}</time>
+          <time datetime={published.toISOString().slice(0, 10)}>{formattedDate}</time>
         </div>
       </header>
 
@@ -41,7 +43,7 @@ const formattedDate = new Intl.DateTimeFormat('en', {
 
       <footer class="article-source">
         <span>Project source</span>
-        <a href={repository} rel="noopener">github.com/Abhi-Gautam/{project.toLowerCase()} ↗</a>
+        <a href={repository} rel="noopener">{repositoryLabel} ↗</a>
       </footer>
     </article>
   </main>

@@ -34,6 +34,44 @@ test('homepage exposes the chronological article list', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Temporal is working. Now define what your job means.');
 });
 
+test('article metadata drives canonical, social card, and feed discovery', async ({ page, request }) => {
+  const title = 'Temporal is working. Now define what your job means.';
+  await page.goto('/writing/orchestration/');
+
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    'href',
+    'https://syntropicsystems.dev/writing/orchestration/',
+  );
+  await expect(page.locator('meta[property="og:type"]')).toHaveAttribute('content', 'article');
+  await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
+    'content',
+    `${title} — Syntropic Systems`,
+  );
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+    'content',
+    'https://syntropicsystems.dev/og/orchestration.png',
+  );
+  await expect(page.locator('link[rel="alternate"][type="application/rss+xml"]')).toHaveAttribute(
+    'href',
+    'https://syntropicsystems.dev/rss.xml',
+  );
+
+  const feed = await request.get('/rss.xml');
+  expect(feed.ok()).toBe(true);
+  const feedText = await feed.text();
+  expect(feedText).toContain(title);
+  expect(feedText).toContain('/writing/orchestration/');
+  expect(feedText).not.toContain('We rebuilt Temporal in Postgres. Here is how it failed.');
+
+  const card = await request.get('/og/orchestration.png');
+  expect(card.ok()).toBe(true);
+  expect(card.headers()['content-type']).toContain('image/png');
+  const png = await card.body();
+  expect(png.subarray(0, 8).toString('hex')).toBe('89504e470d0a1a0a');
+  expect(png.readUInt32BE(16)).toBe(1200);
+  expect(png.readUInt32BE(20)).toBe(630);
+});
+
 test('diagram loads and scrolls inside its own container on narrow screens', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/writing/animesh/');

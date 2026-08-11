@@ -1,20 +1,10 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const articles = [
-  {
-    href: '/writing/orchestration/',
-    title: 'We rebuilt Temporal in Postgres. Here is how it failed.',
-    summary: 'A concrete teardown of the execution, failure, cancellation, deduplication, and progress mistakes that accumulated inside one production action system.',
-    project: 'Orchestration',
-  },
-  {
-    href: '/writing/animesh/',
-    title: 'I just wanted to know when an episode dropped',
-    summary: 'A manual Crunchyroll habit became a notification pipeline, then a daemon, then the beginning of a local data system for personal taste.',
-    project: 'Animesh',
-  },
-];
+const articles = (await getCollection('writing')).sort(
+  (a, b) => b.data.published.getTime() - a.data.published.getTime(),
+);
 ---
 
 <BaseLayout
@@ -28,10 +18,20 @@ const articles = [
     <ol class="article-list" aria-label="Articles">
       {articles.map((article) => (
         <li>
-          <a class="article-entry" href={article.href}>
-            <span class="article-title">{article.title}</span>
-            <span class="article-summary">{article.summary}</span>
-            <span class="article-meta">{article.project}</span>
+          <a class="article-entry" href={`/writing/${article.id}/`}>
+            <span class="article-title">{article.data.title}</span>
+            <span class="article-summary">{article.data.description}</span>
+            <span class="article-meta">
+              <span>{article.data.project}</span>
+              <time datetime={article.data.published.toISOString().slice(0, 10)}>
+                {new Intl.DateTimeFormat('en', {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                  timeZone: 'UTC',
+                }).format(article.data.published)}
+              </time>
+            </span>
           </a>
         </li>
       ))}

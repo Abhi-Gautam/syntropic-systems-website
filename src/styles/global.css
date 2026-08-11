@@ -1,17 +1,30 @@
-/* The publication is deliberately plain. Structure and evidence do the visual work. */
-
 :root {
-  color-scheme: light;
+  color-scheme: light dark;
   --background: #ffffff;
   --text: #111111;
   --muted: #666666;
   --border: #dedede;
   --soft: #f6f6f3;
+  /* Diagrams are authored in their project repositories with dark strokes on
+     a light ground. They keep that ground in both themes rather than being
+     inverted into illegibility. */
+  --figure-ground: #ffffff;
   --page-width: 780px;
-  --article-width: 700px;
+  --article-width: 660px;
   --figure-width: 960px;
   --page-padding: 24px;
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #101010;
+    --text: #e6e6e6;
+    --muted: #8f8f8f;
+    --border: #2b2b2b;
+    --soft: #181818;
+  }
 }
 
 *,
@@ -29,10 +42,28 @@ body {
   min-width: 320px;
   background: var(--background);
   color: var(--text);
-  font-family: var(--mono);
-  font-size: 15px;
-  line-height: 1.65;
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  /* Sizing context for full-bleed figures. Unlike 100vw, 100cqw excludes the
+     scrollbar, so breakout media cannot overflow the page on platforms that
+     reserve scrollbar width. */
+  container-type: inline-size;
+}
+
+/* Monospace means machine: the wordmark, metadata, code, and captions.
+   Prose is set in the reading face so the distinction carries meaning. */
+.brand,
+.article-meta,
+.article-kicker,
+.article-byline,
+.article-source,
+.media figcaption,
+.site-footer,
+.prose pre,
+.prose code {
+  font-family: var(--mono);
 }
 
 img,
@@ -124,7 +155,7 @@ h1 {
   max-width: 680px;
   margin-bottom: 24px;
   font-size: clamp(30px, 5vw, 42px);
-  font-weight: 550;
+  font-weight: 600;
   letter-spacing: -0.04em;
   line-height: 1.12;
 }
@@ -176,10 +207,16 @@ h1 {
 }
 
 .article-meta {
-  display: block;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
   color: var(--muted);
   font-size: 12px;
-  text-transform: lowercase;
+}
+
+.article-meta > * + *::before {
+  content: '/';
+  margin-right: 10px;
 }
 
 .site-footer {
@@ -208,7 +245,6 @@ h1 {
   margin-bottom: 24px;
   color: var(--muted);
   font-size: 12px;
-  text-transform: lowercase;
 }
 
 .article-dek {
@@ -243,7 +279,7 @@ h1 {
   margin-top: 64px;
   margin-bottom: 20px;
   font-size: clamp(21px, 3vw, 27px);
-  font-weight: 650;
+  font-weight: 600;
   letter-spacing: -0.03em;
   line-height: 1.25;
 }
@@ -299,6 +335,8 @@ h1 {
   font-size: inherit;
 }
 
+/* Tables carry the same promise as diagrams: scroll inside the figure rather
+   than pushing the page sideways. */
 .prose table {
   display: block;
   width: 100%;
@@ -308,6 +346,11 @@ h1 {
   font-family: var(--mono);
   font-size: 12px;
   line-height: 1.5;
+}
+
+.prose th,
+.prose td {
+  white-space: normal;
 }
 
 .prose th,
@@ -342,7 +385,12 @@ h1 {
 
 /* Markdown media contract. */
 .media {
+  /* Fallback for browsers without container query units. */
   width: min(calc(100vw - (var(--page-padding) * 2)), var(--figure-width));
+  /* 100cqw resolves against the body content box, which excludes the
+     scrollbar. 100vw does not, so it overflows wherever the scrollbar takes
+     real width (Windows, Linux, macOS with "always show scroll bars"). */
+  width: min(calc(100cqw - (var(--page-padding) * 2)), var(--figure-width));
   margin: 48px 50%;
   transform: translateX(-50%);
 }
@@ -360,6 +408,10 @@ h1 {
   scrollbar-gutter: stable;
 }
 
+.media--diagram .media__scroll {
+  background: var(--figure-ground);
+}
+
 .media--diagram .media__asset {
   width: max(100%, 880px);
   max-width: none;
@@ -367,6 +419,7 @@ h1 {
 
 .media--image .media__asset {
   border: 1px solid var(--border);
+  background: var(--figure-ground);
 }
 
 .media figcaption {
