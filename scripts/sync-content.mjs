@@ -77,6 +77,12 @@ export async function syncAllProjects(configPath = path.join(websiteRoot, 'conte
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  // Astro caches rendered Markdown by the article's text. A change to the
+  // Markdown plugins in this repository does not change that text, so a
+  // reused cache (local, or a cloud build cache) would publish stale HTML.
+  for (const cache of ['.astro', 'node_modules/.astro']) {
+    await rm(path.join(websiteRoot, cache), { recursive: true, force: true });
+  }
   const results = await syncAllProjects();
   console.log(`Synchronized ${results.length} project${results.length === 1 ? '' : 's'}.`);
 }
