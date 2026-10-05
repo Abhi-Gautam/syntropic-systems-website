@@ -30,6 +30,18 @@
       "ref": "27ebe627f781c5dd4126bb1c6fa0a31ffb696445",
       "article": "docs/public/desktop.md",
       "assets": []
+    },
+    {
+      "id": "shopkeeper",
+      "repository": "/Volumes/mac-devlopment/systems-learning-lab/labs/ai-infrastructure/shopkeeper",
+      "rawRoot": "https://raw.githubusercontent.com/Abhi-Gautam/shopkeeper",
+      "ref": "b4a790d93368e0528a7466e5ecd0ea4b6915d4e4",
+      "article": "docs/public/article.md",
+      "assets": [
+        "docs/public/assets/setup.svg",
+        "docs/public/assets/floor.mp4",
+        "docs/public/assets/phoenix-conversation.png"
+      ]
     }
   ]
 }
