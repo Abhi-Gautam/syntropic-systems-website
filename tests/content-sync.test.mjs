@@ -102,3 +102,26 @@ test('failed raw downloads stop the build', async () => {
     await rm(temp, { recursive: true, force: true });
   }
 });
+
+test('binary assets are copied byte for byte', async () => {
+  const temp = await mkdtemp(path.join(os.tmpdir(), 'syntropic-binary-content-'));
+  const repository = path.join(temp, 'project');
+  const media = path.join(temp, 'media');
+  const video = Buffer.from([0x00, 0x00, 0x00, 0x18, 0x66, 0x74, 0x79, 0x70, 0xff, 0xfe, 0x80]);
+  await mkdir(path.join(repository, 'docs/public/assets'), { recursive: true });
+  await writeFile(path.join(repository, 'docs/public/article.md'), article);
+  await writeFile(path.join(repository, 'docs/public/assets/floor.mp4'), video);
+
+  try {
+    const { syncProject } = await importer();
+    await syncProject({ ...project(repository), assets: ['docs/public/assets/floor.mp4'] }, {
+      generatedRoot: path.join(temp, 'generated'),
+      mediaRoot: media,
+      fetcher: async () => assert.fail('local sync must not fetch'),
+    });
+
+    assert.deepEqual(await readFile(path.join(media, 'test-project', 'floor.mp4')), video);
+  } finally {
+    await rm(temp, { recursive: true, force: true });
+  }
+});

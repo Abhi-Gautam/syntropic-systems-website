@@ -12,10 +12,17 @@ function rawUrl(project, relativePath) {
   return `${root}/${ref}/${file}`;
 }
 
+// Text is validated and rewritten as text; everything else (video, raster
+// images) is copied byte for byte.
+function isText(relativePath) {
+  return /\.(md|svg)$/i.test(relativePath);
+}
+
 async function readProjectFile(project, relativePath, fetcher) {
   const localPath = path.join(project.repository, relativePath);
+  const text = isText(relativePath);
   try {
-    return { content: await readFile(localPath, 'utf8'), source: localPath };
+    return { content: await readFile(localPath, text ? 'utf8' : undefined), source: localPath };
   } catch (error) {
     if (error.code !== 'ENOENT') throw error;
   }
@@ -29,7 +36,8 @@ async function readProjectFile(project, relativePath, fetcher) {
   if (!response.ok) {
     throw new Error(`${project.id}: HTTP ${response.status} while downloading ${url}`);
   }
-  return { content: await response.text(), source: url };
+  const content = text ? await response.text() : Buffer.from(await response.arrayBuffer());
+  return { content, source: url };
 }
 
 export async function syncProject(project, {

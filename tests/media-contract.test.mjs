@@ -46,3 +46,19 @@ test('media without useful alt text fails during native Markdown rendering', asy
     /alt text/i,
   );
 });
+
+test('video Markdown media become muted, looping figures with controls', async () => {
+  const plugin = await mediaPlugin();
+  const { html } = await markdownToHtml(
+    '![The shop floor during a run](./floor.mp4 "A run on the shop floor.")',
+    { hastPlugins: [plugin] },
+  );
+
+  assert.match(html, /<figure class="media media--image">/);
+  assert.match(html, /<video[^>]+src="\.\/floor\.mp4"/);
+  assert.match(html, /<video[^>]+aria-label="The shop floor during a run"/);
+  assert.match(html, /<video[^>]+muted/);
+  assert.match(html, /<video[^>]+controls/);
+  assert.doesNotMatch(html, /<img/);
+  assert.match(html, /<figcaption>A run on the shop floor\.<\/figcaption>/);
+});
