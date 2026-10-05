@@ -56,6 +56,7 @@ test('video Markdown media become muted, looping figures with controls', async (
 
   assert.match(html, /<figure class="media media--image">/);
   assert.match(html, /<video[^>]+src="\.\/floor\.mp4"/);
+  assert.match(html, /<video[^>]+poster="\.\/floor\.jpg"/);
   assert.match(html, /<video[^>]+aria-label="The shop floor during a run"/);
   assert.match(html, /<video[^>]+muted/);
   assert.match(html, /<video[^>]+controls/);

@@ -43,7 +43,9 @@ export default defineHastPlugin({
       const { title: _title, ...rest } = sourceProperties;
 
       // A video is written like an image. It plays muted and loops, with
-      // controls, and never autoplays sound. The alt text labels it.
+      // controls, and never autoplays sound. The alt text labels it. Its
+      // poster is the .jpg beside it with the same name (floor.mp4 ->
+      // floor.jpg), so the page shows a frame instead of an empty box.
       if (isVideoSource(sourceProperties.src)) {
         return {
           type: 'element',
@@ -55,6 +57,7 @@ export default defineHastPlugin({
               tagName: 'video',
               properties: {
                 src: sourceProperties.src,
+                poster: String(sourceProperties.src).replace(/\.(mp4|webm)(?=$|[?#])/i, '.jpg'),
                 ariaLabel: alt,
                 className: ['media__asset'],
                 controls: true,
