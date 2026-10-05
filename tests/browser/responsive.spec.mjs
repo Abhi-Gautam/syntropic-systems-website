@@ -14,7 +14,7 @@ for (const viewport of viewports) {
       if (message.type() === 'error') consoleErrors.push(message.text());
     });
 
-    for (const route of ['/', '/writing/animesh/', '/writing/orchestration/']) {
+    for (const route of ['/', '/writing/animesh/', '/writing/animesh-desktop/', '/writing/orchestration/']) {
       await page.goto(route);
       await expect(page.locator('main')).toBeVisible();
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
@@ -28,10 +28,10 @@ for (const viewport of viewports) {
 test('homepage exposes the chronological article list', async ({ page }) => {
   await page.goto('/');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Software systems, built and explained.');
-  await expect(page.locator('.article-entry')).toHaveCount(2);
+  await expect(page.locator('.article-entry')).toHaveCount(3);
   await page.locator('.article-entry').first().click();
-  await expect(page).toHaveURL(/\/writing\/orchestration\/$/);
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Temporal is working. Now define what your job means.');
+  await expect(page).toHaveURL(/\/writing\/animesh-desktop\/$/);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Animesh now has a desktop app');
 });
 
 test('article metadata drives canonical, social card, and feed discovery', async ({ page, request }) => {
@@ -220,8 +220,8 @@ test('orchestration diagrams load before the reader scrolls to them', async ({ p
   expect(await page.evaluate(() => window.scrollY)).toBe(0);
 
   const images = page.locator('.media--diagram img');
-  await expect(images).toHaveCount(4);
-  for (let index = 0; index < 4; index += 1) {
+  await expect(images).toHaveCount(2);
+  for (let index = 0; index < 2; index += 1) {
     const image = images.nth(index);
     await expect(image).toHaveAttribute('loading', 'eager');
     await expect.poll(
@@ -277,9 +277,9 @@ test('orchestration diagrams start at their left edge inside mobile scroll conta
   await page.goto('/writing/orchestration/');
 
   const scrollers = page.locator('.media--diagram .media__scroll');
-  await expect(scrollers).toHaveCount(4);
+  await expect(scrollers).toHaveCount(2);
 
-  for (let index = 0; index < 4; index += 1) {
+  for (let index = 0; index < 2; index += 1) {
     const dimensions = await scrollers.nth(index).evaluate((element) => ({
       scrollLeft: element.scrollLeft,
       scrollWidth: element.scrollWidth,
