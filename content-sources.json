@@ -4,7 +4,7 @@
       "id": "animesh",
       "repository": "/Volumes/mac-devlopment/oss/animesh",
       "rawRoot": "https://raw.githubusercontent.com/Abhi-Gautam/animesh",
-      "ref": "master",
+      "ref": "d85dbf266cbd380fd9c4dbc26c3c49946afffbbc",
       "article": "docs/public/article.md",
       "assets": [
         "docs/public/assets/architecture.svg"
@@ -14,7 +14,7 @@
       "id": "orchestration",
       "repository": "../../personal-projects/orchestration",
       "rawRoot": "https://raw.githubusercontent.com/Abhi-Gautam/orchestration",
-      "ref": "main",
+      "ref": "e5a2d543b81251328984ab896f6c05ae832af595",
       "article": "docs/public/article.md",
       "assets": [
         "docs/public/assets/document-workflow.svg",
