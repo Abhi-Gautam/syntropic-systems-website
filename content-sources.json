@@ -35,7 +35,7 @@
       "id": "shopkeeper",
       "repository": "/Volumes/mac-devlopment/systems-learning-lab/labs/ai-infrastructure/shopkeeper",
       "rawRoot": "https://raw.githubusercontent.com/Abhi-Gautam/shopkeeper",
-      "ref": "bd4c8dfed0690af9f1b993e3b67f2fc82b08d78e",
+      "ref": "4efd75fbace101715fed2ca0e07f6c13b168c56f",
       "article": "docs/public/article.md",
       "assets": [
         "docs/public/assets/setup.svg",
@@ -43,6 +43,7 @@
         "docs/public/assets/floor.jpg",
         "docs/public/assets/flow-before.svg",
         "docs/public/assets/flow-after.svg",
+        "docs/public/assets/flow-jev.svg",
         "docs/public/assets/stages.svg"
       ]
     }
