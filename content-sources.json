@@ -4,7 +4,7 @@
       "id": "animesh",
       "repository": "/Volumes/mac-devlopment/oss/animesh",
       "rawRoot": "https://raw.githubusercontent.com/Abhi-Gautam/animesh",
-      "ref": "27ebe627f781c5dd4126bb1c6fa0a31ffb696445",
+      "ref": "ff07a6c1dc5fb4dfa4c5d207de5691424990df25",
       "article": "docs/public/article.md",
       "assets": [
         "docs/public/assets/architecture.svg"
@@ -27,7 +27,7 @@
       "id": "animesh-desktop",
       "repository": "/Volumes/mac-devlopment/oss/animesh",
       "rawRoot": "https://raw.githubusercontent.com/Abhi-Gautam/animesh",
-      "ref": "27ebe627f781c5dd4126bb1c6fa0a31ffb696445",
+      "ref": "ff07a6c1dc5fb4dfa4c5d207de5691424990df25",
       "article": "docs/public/desktop.md",
       "assets": []
     },

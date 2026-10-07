@@ -28,8 +28,8 @@ for (const viewport of viewports) {
 test('homepage exposes the chronological article list', async ({ page }) => {
   await page.goto('/');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Software systems, built and explained.');
-  await expect(page.locator('.article-entry')).toHaveCount(3);
-  await page.locator('.article-entry').first().click();
+  await expect(page.locator('.article-entry')).toHaveCount(4);
+  await page.locator('.article-entry[href="/writing/animesh-desktop/"]').click();
   await expect(page).toHaveURL(/\/writing\/animesh-desktop\/$/);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Animesh now has a desktop app');
 });
